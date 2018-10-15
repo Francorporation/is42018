@@ -25,3 +25,6 @@ Route::resource('categoria', 'CategoriaController');
 Route::resource('catproductos', 'CategoriaProductosController');
 
 Route::resource('catpersonas', 'CategoriaPersonasController');
+
+Route::resource('comprasdetalle', 'ComprasDetalleController');
+

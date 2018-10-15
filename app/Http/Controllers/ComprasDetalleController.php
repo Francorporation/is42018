@@ -4,9 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use App\cat_personas;
+use App\compras_detalle;
 
-class CategoriaPersonasController extends Controller
+class ComprasDetalleController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,11 +16,11 @@ class CategoriaPersonasController extends Controller
     public function index()
     {
         //hacemos referencia al nombre de la tabla
-        $cat_personas = DB::table('cat_personas')
+        $compras_detalle = DB::table('compras_detalle')
         
         ->get();
         
-        return $cat_personas;
+        return $compras_detalle;
     }
 
     /**
@@ -41,18 +41,25 @@ class CategoriaPersonasController extends Controller
      */
     public function store(Request $request)
     {
-        $cat_personas= new cat_personas;
+        $compras_detalle= new compras_detalle;
         
-        $cat_personas->per_id = $request->per_id;
+        $compras_detalle->compra_id = $request->compra_id;
         
-        $cat_personas->cat_id = $request->cat_id;
+        $compras_detalle->producto_id = $request->producto_id;
         
-        $resultado = $cat_personas->save();
+        $compras_detalle->costo_unitario = $request->costo_unitario;        
+        
+        $compras_detalle->cantidad = $request->cantidad;
+        
+        $compras_detalle->sub_total = $request->sub_total;
+        
+        
+        $resultado = $compras_detalle->save();
         
         if($resultado)
         {
             
-            return $cat_personas;
+            return $compras_detalle;
         }
         else
             return 'Ocurrio un error';
@@ -66,7 +73,7 @@ class CategoriaPersonasController extends Controller
      */
     public function show($id)
     {
-        return cat_personas::where('id', $id)->first();
+        return compras_detalle::where('id', $id)->first();
     }
 
     /**
@@ -89,24 +96,30 @@ class CategoriaPersonasController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $valorDeIdCompra = $request->compra_id;
+        $valorDeIdProducto = $request->producto_id;
+        $valorDeCostoUnitario = $request->costo_unitario;
+        $valorDeCantidad = $request->cantidad;
+        $valorDeSubTotal = $request->subtotal;
+        
 
-        $valorDeIdPersona = $request->per_id;
-        $valorDeIdCategoria = $request->cat_id;
+        $compras_detalle = compras_detalle::find($id);
 
-        $cat_personas = cat_personas::find($id);
+        $compras_detalle->compra_id = $valorDeIdCompra;
+        $compras_detalle->producto_id = $valorDeIdProducto;
+        $compras_detalle->costo_unitario = $valorDeCostoUnitario;
+        $compras_detalle->cantidad = $valorDeCantidad;
+        $compras_detalle->subtotal = $valorDeSubTotal;
 
-        $cat_personas->per_id = $valorDeIdPersona;
-        $cat_personas->cat_id = $valorDeIdCategoria;
-
-        $resultado = $cat_personas->save();
+        $resultado = $compras_detalle->save();
         if($resultado)
         {
-
-            return $cat_personas;
+            //exito
+            return $compras_detalle;
         }
         else
         {
-
+            //error
         }
     }
 
@@ -118,9 +131,9 @@ class CategoriaPersonasController extends Controller
      */
     public function destroy($id)
     {
-        $cat_personas = cat_personas::find($id);
+        $compras_detalle = compras_detalle::find($id);
         //eliminamos el registro
-        $cat_personas->delete();
+        $compras_detalle->delete();
         //respuesta
         return 'Registro eliminado correctamente';
     }
