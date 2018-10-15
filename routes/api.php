@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -20,3 +21,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 //Agregamos nuestra ruta al controlador de categorias
 Route::resource('categoria', 'CategoriaController');
+
+Route::resource('catproductos', 'CategoriaProductosController');
+
+Route::resource('catpersonas', 'CategoriaPersonasController');
